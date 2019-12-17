@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-
-const Statistics = (props) => {
-    return(
-        <div>
-          <Statistic text="good" value ={...} />
-          <Statistic text="neutral" value ={...} />
-          <Statistic text="bad" value ={...} />
-          // ...
-        </div>
-        )
-  }
+import {ButtonToolbar, Button} from 'react-bootstrap';
+// const Statistics = (props) => {
+//     return(
+//         <div>
+//           <Statistic text="good" value ={...} />
+//           <Statistic text="neutral" value ={...} />
+//           <Statistic text="bad" value ={...} />
+//           // ...
+//         </div>
+//         )
+//   }
 
 const App = () => {
   // save clicks of each button to own state
@@ -20,7 +20,13 @@ const App = () => {
 
   return (
     <div>
-      code here
+      <b>Give Feedback</b> 
+      <ButtonToolbar>
+        <Button>Good</Button>
+        <Button>Neutral</Button>
+        <Button>Bad</Button>
+      </ButtonToolbar>
+      <b>Statistics</b>
     </div>
   )
 }
