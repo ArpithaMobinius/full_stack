@@ -13,8 +13,6 @@ let Content = (content) => {
 
 let Total = (total) => {
     let total_count = 0;
-    console.log(total);
-
     total.part.forEach(part => {
         total_count = total_count + part.exercises;
   });
