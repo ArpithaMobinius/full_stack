@@ -4,6 +4,6 @@ import App from './App'  // highlight-line
 
 
 ReactDOM.render(
-  <App />,
+  <App/>,
   document.getElementById('root')
 )
