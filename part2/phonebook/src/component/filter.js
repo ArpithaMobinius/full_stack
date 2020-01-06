@@ -1,9 +1,5 @@
 import React from 'react'
 
-// const filterChangeHandler = (event) => {
-//     setfilterName(event.target.value)
-// }
-
 const Filter = (props) => {
     return (
         <div>
