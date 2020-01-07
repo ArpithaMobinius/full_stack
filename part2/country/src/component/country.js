@@ -1,4 +1,5 @@
-import React from 'react'
+import React , { useState} from 'react'
+import '../country.css';
 
 const Languages = (props) => {
     return props.languages.map((language, index) => {
@@ -10,14 +11,30 @@ const Languages = (props) => {
     })
 }
 
+const ShowCountry = ({show, details}) => {
+    let country = details
+    if (!show ) return null
+    return (
+        <div>
+            <h2>{country.name}</h2>
+            <p>capital {country.capital}</p> 
+            <p>population {country.population}</p> 
+            <h3>languages </h3>
+            <Languages languages = {country.languages}/>
+            <img src={country.flag} alt="" style={{height:'10vh'}}></img>
+        </div>     
+        ) 
+}
+
 const Country = (props) => {
+  const [ details, setDetails ] = useState({})
+  const [ show, setShow ] = useState(0)
+
     if (typeof props.country === 'string') {
         return (
             <p> {props.country}</p>      
             )
     } else { 
-        console.log(props.country.length, props.country);
-           
         if (props.country.length === 1) {
             return (
                 <div>
@@ -30,11 +47,21 @@ const Country = (props) => {
                 </div>     
                 ) 
         } else {
-        return props.country.map((country, index) => {
+            let display = props.country.map((country, index) => {
+                return (
+                    <div key={index}>
+                        {country.name}
+                        <button onClick={()=>{setDetails(country); setShow(1)}}>show</button>
+                    </div> 
+                )
+            }) 
             return (
-            <p key={index}> {country.name}</p>      
+                <div>
+                    {display}
+                    <ShowCountry show={show} details={details}/>
+                </div>
             )
-        }) }
+        }
     }
   }
 
