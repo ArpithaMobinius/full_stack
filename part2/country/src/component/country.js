@@ -1,7 +1,9 @@
-import React , { useState} from 'react'
+import React , { useState, useEffect} from 'react'
+import axios from 'axios'
 import '../country.css';
 
 const Languages = (props) => {
+    if (!props.languages) return null
     return props.languages.map((language, index) => {
         return (
             <ul>
@@ -11,10 +13,32 @@ const Languages = (props) => {
     })
 }
 
-const ShowCountry = ({show, details}) => {
-    let country = details
-    if (!show ) return null
-    return (
+const Weather = (props) => {
+    if (props.success) {
+        const {current = {}, location = {}} = props;
+        const [icon = null] = current.weather_icons;
+        const {weather_descriptions = {}} = current;
+        return (
+            <div>
+                <h3>Weather in {location.name}</h3>
+                <p>temperature: {current.temperature} Celsius</p>
+                <img src={icon} alt=''/>
+                <p>wind: {weather_descriptions.wind_speed} direction {weather_descriptions.wind_dir} </p>
+            </div>
+        )
+    }
+    return null;
+}
+
+const Details = ({country}) => {
+    const [weather, setWeather] = useState({});
+    const hook = () => {
+        axios
+        .get(`http://api.weatherstack.com/current?access_key=812550e976d1726d73cbc5fcc6b207eb&query=${country.capital}`)
+        .then((res)=> {setWeather(res.data)})
+    }
+    useEffect(hook);
+    return(
         <div>
             <h2>{country.name}</h2>
             <p>capital {country.capital}</p> 
@@ -22,7 +46,16 @@ const ShowCountry = ({show, details}) => {
             <h3>languages </h3>
             <Languages languages = {country.languages}/>
             <img src={country.flag} alt="" style={{height:'10vh'}}></img>
-        </div>     
+            <Weather {...weather} />
+        </div>
+    )
+}
+
+const ShowCountry = ({show, details}) => {
+    let country = details
+    if (!show ) return null
+    return (
+        <Details country={country}/>     
         ) 
 }
 
@@ -37,14 +70,7 @@ const Country = (props) => {
     } else { 
         if (props.country.length === 1) {
             return (
-                <div>
-                    <h2>{props.country[0].name}</h2>
-                    <p>capital {props.country[0].capital}</p> 
-                    <p>population {props.country[0].population}</p> 
-                    <h3>languages </h3>
-                    <Languages languages = {props.country[0].languages}/>
-                    <img src={props.country[0].flag} alt="" style={{height:'10vh'}}></img>
-                </div>     
+                <Details country={props.country}/>         
                 ) 
         } else {
             let display = props.country.map((country, index) => {
