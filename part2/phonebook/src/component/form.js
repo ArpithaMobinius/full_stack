@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+
 
 const PersonForm = (props) => { 
     
@@ -12,13 +14,26 @@ const PersonForm = (props) => {
         if(check.length) {
           alert(`${newName} is already added to phonebook`)
         } else {
-            props.setPersons([
-            ...props.persons,
-            {
+            const personObject = {
               name: newName,
               number: newNumber
             }
-          ]);
+
+            axios
+            .post('http://localhost:3001/persons', personObject)
+            .then(response => {
+              props.setPersons(props.persons.concat(response.data))
+              setNewName('')
+              setNewNumber('')
+            })
+
+          //   props.setPersons([
+          //   ...props.persons,
+          //   {
+          //     name: newName,
+          //     number: newNumber
+          //   }
+          // ]);
         }
       }
     
