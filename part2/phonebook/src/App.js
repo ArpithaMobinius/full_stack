@@ -28,7 +28,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} filterName={filterName}/>
+      <Persons persons={persons} setPersons={setPersons} filterName={filterName}/>
     </div>
   )
 }
