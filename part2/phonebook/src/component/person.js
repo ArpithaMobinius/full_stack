@@ -12,6 +12,8 @@ const Persons = (props) => {
     if (window.confirm(`Delete ${name}`)) {
       console.log('checking');
       personService.deletePerson(id).then(()=>{
+        props.setNotification(`${name} is deleted`)
+        setTimeout(()=> {props.setNotification(null)}, 5000)
         copy[state] = !(copy[state])   
         setAll(copy)
           personService
@@ -19,7 +21,7 @@ const Persons = (props) => {
             .then(response => {
               console.log('response.data', response.data);
               props.setPersons(response.data)})
-          })
+          }).catch(e=> {props.setError(`error in deleting ${name} in phonebook`); setTimeout(()=> {props.setError(null)}, 5000)})
     } 
 
   }

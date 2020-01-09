@@ -5,6 +5,7 @@ const PersonForm = (props) => {
     
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState(0)
+    
     const addPerson =()=>{
       const personObject = {
         name: newName,
@@ -16,7 +17,9 @@ const PersonForm = (props) => {
         props.setPersons(props.persons.concat(response))
         setNewName('')
         setNewNumber('')
-      })
+        props.setNotification(`${newName} is added to the phonebook`)
+        setTimeout(()=> {props.setNotification(null)}, 5000)
+      }).catch(e=> {props.setError(`error in adding ${newName} in phonebook`); setTimeout(()=> {props.setError(null)}, 5000)})
     }
 
     const updatePerson =(id)=>{
@@ -29,11 +32,13 @@ const PersonForm = (props) => {
       .then(() => {
         setNewName('')
         setNewNumber('')
+        props.setNotification(`Number of ${newName} is updated`)
+        setTimeout(()=> {props.setNotification(null)}, 5000)
         personService
           .getAll()
             .then(response => {
               props.setPersons(response.data)})
-      })
+      }).catch(e=> {props.setError(`error in updating ${newName} in phonebook`); setTimeout(()=> {props.setError(null)}, 5000)})
     }
 
     const mySubmitHandler = (event) => {
