@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import personService from '../services/persons'
 
 const PersonForm = (props) => { 
     
@@ -12,13 +13,17 @@ const PersonForm = (props) => {
         if(check.length) {
           alert(`${newName} is already added to phonebook`)
         } else {
-            props.setPersons([
-            ...props.persons,
-            {
+            const personObject = {
               name: newName,
               number: newNumber
             }
-          ]);
+            personService
+            .create(personObject)
+            .then(response => {
+              props.setPersons(props.persons.concat(response))
+              setNewName('')
+              setNewNumber('')
+            })
         }
       }
     
